@@ -6,12 +6,12 @@
       {
         "text": "넓은 콘크리트 바닥을 빠르고 매끄럽게 마감하는 장비, 승용식 쌍발 트로웰을 소개합니다.",
         "file": "voice/intro_0.wav",
-        "duration": 5.973
+        "duration": 5.982
       },
       {
         "text": "작업자가 직접 올라타 조종하기 때문에, 대형 현장에서도 균일한 품질의 바닥을 만들 수 있습니다.",
         "file": "voice/intro_1.wav",
-        "duration": 6.685
+        "duration": 6.573
       }
     ]
   },
@@ -22,27 +22,27 @@
       {
         "text": "먼저 주요 구성부터 살펴보겠습니다.",
         "file": "voice/parts_0.wav",
-        "duration": 2.096
+        "duration": 2.117
       },
       {
         "text": "뒤쪽에는 엔진과 연료 탱크가 있고, 그 앞에 운전석이 자리하고 있습니다.",
         "file": "voice/parts_1.wav",
-        "duration": 5.05
+        "duration": 5.039
       },
       {
         "text": "운전석 양옆의 조종 레버 두 개로 기계의 움직임을 제어합니다.",
         "file": "voice/parts_2.wav",
-        "duration": 4.162
+        "duration": 4.234
       },
       {
         "text": "아래쪽에는 두 개의 로터가 있고, 노란색 가드 링이 이를 둘러싸 작업자와 주변을 보호합니다.",
         "file": "voice/parts_3.wav",
-        "duration": 6.487
+        "duration": 6.285
       },
       {
         "text": "앞쪽의 작업등은 어두운 환경에서도 안전한 작업을 돕습니다.",
         "file": "voice/parts_4.wav",
-        "duration": 4.099
+        "duration": 4.249
       }
     ]
   },
@@ -53,22 +53,22 @@
       {
         "text": "트로웰의 핵심은 두 로터의 회전 방향입니다.",
         "file": "voice/principle_0.wav",
-        "duration": 2.452
+        "duration": 2.575
       },
       {
         "text": "아래에서 보면 왼쪽 로터는 반시계 방향, 오른쪽 로터는 시계 방향으로, 서로 반대로 회전합니다.",
         "file": "voice/principle_1.wav",
-        "duration": 6.748
+        "duration": 6.62
       },
       {
         "text": "회전하는 힘이 서로 상쇄되기 때문에, 기계가 한쪽으로 돌지 않고 블레이드 위에서 안정적으로 균형을 잡습니다.",
         "file": "voice/principle_2.wav",
-        "duration": 7.198
+        "duration": 7.135
       },
       {
         "text": "각 로터에 달린 네 장의 블레이드가 콘크리트 표면을 누르고 문지르며 평탄하게 다듬습니다.",
         "file": "voice/principle_3.wav",
-        "duration": 6.011
+        "duration": 6.157
       }
     ]
   },
@@ -79,17 +79,17 @@
       {
         "text": "작업 전에는 반드시 장비 점검을 실시합니다.",
         "file": "voice/check_0.wav",
-        "duration": 2.743
+        "duration": 2.734
       },
       {
         "text": "연료와 엔진 오일의 양, 블레이드의 마모 상태, 그리고 가드 링과 각 부의 체결 상태를 확인합니다.",
         "file": "voice/check_1.wav",
-        "duration": 7.075
+        "duration": 7.105
       },
       {
         "text": "비상 정지 스위치가 정상적으로 작동하는지도 꼭 점검합니다.",
         "file": "voice/check_2.wav",
-        "duration": 3.984
+        "duration": 3.852
       }
     ]
   },
@@ -100,27 +100,27 @@
       {
         "text": "점검이 끝나면 운전석에 앉아 엔진 시동을 겁니다.",
         "file": "voice/control_0.wav",
-        "duration": 3.4
+        "duration": 3.448
       },
       {
         "text": "엔진이 충분히 예열되면, 스로틀을 천천히 올려 로터의 회전 속도를 높입니다.",
         "file": "voice/control_1.wav",
-        "duration": 5.372
+        "duration": 5.195
       },
       {
         "text": "두 레버를 함께 앞으로 밀면 전진하고, 뒤로 당기면 후진합니다.",
         "file": "voice/control_2.wav",
-        "duration": 4.213
+        "duration": 4.246
       },
       {
         "text": "레버를 좌우로 기울이면 옆으로 이동하고, 두 레버를 서로 반대로 움직이면 제자리에서 방향을 바꿉니다.",
         "file": "voice/control_3.wav",
-        "duration": 6.939
+        "duration": 6.967
       },
       {
         "text": "레버는 항상 부드럽게, 조금씩 조작하는 것이 요령입니다.",
         "file": "voice/control_4.wav",
-        "duration": 3.665
+        "duration": 3.758
       }
     ]
   },
@@ -131,22 +131,22 @@
       {
         "text": "작업은 콘크리트가 적당히 굳었을 때 시작합니다. 발로 밟았을 때 자국이 살짝 남는 정도가 적기입니다.",
         "file": "voice/work_0.wav",
-        "duration": 7.238
+        "duration": 6.957
       },
       {
         "text": "처음에는 블레이드를 평평하게 두고, 표면을 고르게 펴는 초벌 작업을 합니다.",
         "file": "voice/work_1.wav",
-        "duration": 4.831
+        "duration": 4.973
       },
       {
         "text": "이후 콘크리트가 굳어 가는 정도에 맞춰 블레이드 각도를 조금씩 세우며, 마감 작업을 여러 번 반복합니다.",
         "file": "voice/work_2.wav",
-        "duration": 7.293
+        "duration": 7.123
       },
       {
         "text": "한 방향으로 겹치듯 진행하고, 다음 회차에는 방향을 바꿔 교차로 지나가면 더욱 균일한 면을 얻을 수 있습니다.",
         "file": "voice/work_3.wav",
-        "duration": 7.383
+        "duration": 7.582
       }
     ]
   },
@@ -157,22 +157,22 @@
       {
         "text": "안전 수칙도 꼭 기억해 주세요.",
         "file": "voice/safety_0.wav",
-        "duration": 1.665
+        "duration": 1.7
       },
       {
         "text": "안전모와 안전화 등 보호구를 착용하고, 회전 중인 로터 가까이에는 누구도 접근하지 않도록 합니다.",
         "file": "voice/safety_1.wav",
-        "duration": 6.897
+        "duration": 6.861
       },
       {
         "text": "자리를 떠날 때에는 로터를 완전히 멈추고 엔진을 정지한 뒤 내립니다.",
         "file": "voice/safety_2.wav",
-        "duration": 4.599
+        "duration": 4.538
       },
       {
         "text": "작업이 끝나면 블레이드와 가드 링에 묻은 콘크리트를 깨끗이 세척해 다음 작업에 대비합니다.",
         "file": "voice/safety_3.wav",
-        "duration": 6.632
+        "duration": 6.618
       }
     ]
   },
@@ -183,12 +183,12 @@
       {
         "text": "올바른 점검과 조작으로, 안전하고 완성도 높은 바닥을 완성하세요.",
         "file": "voice/outro_0.wav",
-        "duration": 4.902
+        "duration": 4.759
       },
       {
         "text": "지금까지 승용식 쌍발 트로웰 작동 방법을 소개해 드렸습니다. 감사합니다.",
         "file": "voice/outro_1.wav",
-        "duration": 4.851
+        "duration": 4.771
       }
     ]
   }
