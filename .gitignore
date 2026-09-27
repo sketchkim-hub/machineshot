@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Ignore the output video from Git but not videos you import into src/.
+out
+
+# 다시 만들 수 있는 큰 파일: Blender 렌더, 배경음, TTS 모델
+public/render
+public/music.wav
+models
+__pycache__
