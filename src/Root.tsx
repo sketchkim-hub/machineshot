@@ -14,6 +14,7 @@ import { Safety } from "./scenes/Safety";
 import { Work } from "./scenes/Work";
 import { FPS, HEIGHT, WIDTH } from "./theme";
 import { SCENES, TOTAL_FRAMES, TRANSITION } from "./timeline";
+import { SHREDDER_FRAMES, ShredderGuide } from "./shredder/Shredder";
 
 const VIEWS: Record<string, React.FC> = {
   intro: Intro,
@@ -59,12 +60,22 @@ export const TrowelIntro: React.FC = () => (
 );
 
 export const RemotionRoot: React.FC = () => (
-  <Composition
-    id="TrowelIntro"
-    component={TrowelIntro}
-    durationInFrames={TOTAL_FRAMES}
-    fps={FPS}
-    width={WIDTH}
-    height={HEIGHT}
-  />
+  <>
+    <Composition
+      id="TrowelIntro"
+      component={TrowelIntro}
+      durationInFrames={TOTAL_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="ShredderGuide"
+      component={ShredderGuide}
+      durationInFrames={SHREDDER_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+  </>
 );

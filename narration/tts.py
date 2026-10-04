@@ -15,9 +15,9 @@ import sherpa_onnx
 import soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCRIPT = os.path.join(ROOT, "narration", "script.json")
-VOICE_DIR = os.path.join(ROOT, "public", "voice")
-TIMELINE = os.path.join(ROOT, "src", "narration.json")
+# 기본값은 트로웰 영상. --script/--name 으로 다른 영상의 대본을 처리
+#   python3 narration/tts.py --script narration/shredder_script.json --name shredder
+#   → public/voice/shredder/*.wav, src/shredder/narration.json
 
 
 def make_tts(d):
@@ -78,9 +78,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--verify", action="store_true")
     ap.add_argument("--sid", type=int)
+    ap.add_argument("--script", default=os.path.join(ROOT, "narration", "script.json"))
+    ap.add_argument("--name", default="")
+    ap.add_argument("--tries", type=int, default=4, help="--verify 일 때 문장당 최대 생성 횟수")
+    ap.add_argument("--only", default="", help="다시 만들 문장만 지정 (예: structure_0,hscode_2). 나머지는 기존 파일 유지")
     args = ap.parse_args()
+    VOICE_DIR = os.path.join(ROOT, "public", "voice", args.name)
+    TIMELINE = os.path.join(ROOT, "src", args.name, "narration.json")
+    os.makedirs(os.path.dirname(TIMELINE), exist_ok=True)
+    prefix = f"voice/{args.name}/" if args.name else "voice/"
 
-    script = json.load(open(SCRIPT, encoding="utf-8"))
+    script = json.load(open(args.script, encoding="utf-8"))
+    only = set(filter(None, args.only.split(",")))
+    old = {}
+    if only and os.path.exists(TIMELINE):
+        for sc in json.load(open(TIMELINE, encoding="utf-8")):
+            for k, l in enumerate(sc["lines"]):
+                old[f"{sc['id']}_{k}"] = l
     v = script["voice"]
     sid = v["sid"] if args.sid is None else args.sid
     tts = make_tts(os.environ.get("TTS_MODEL_DIR", "models/sherpa-onnx-supertonic-3-tts-int8-2026-05-11"))
@@ -90,27 +104,46 @@ def main():
     timeline, errs = [], []
     for scene in script["scenes"]:
         lines = []
-        for i, text in enumerate(scene["lines"]):
+        for i, line in enumerate(scene["lines"]):
+            # 문장은 문자열, 또는 {"text": 자막, "say": 읽을 문장} (숫자·영문 읽기 보정)
+            text = line if isinstance(line, str) else line["text"]
+            say = line if isinstance(line, str) else line.get("say", text)
+            key = f"{scene['id']}_{i}"
+            if only and key not in only and key in old:
+                lines.append({**old[key], "text": text})
+                continue
             g = sherpa_onnx.GenerationConfig()
-            g.sid, g.speed, g.num_steps = sid, v["speed"], v["steps"]
+            g.sid, g.num_steps = sid, v["steps"]
+            g.speed = v["speed"] if isinstance(line, str) else line.get("speed", v["speed"])
             g.extra["lang"] = v["lang"]
-            a = tts.generate(text, g)
-            x = trim(np.asarray(a.samples, dtype=np.float32), a.sample_rate)
-            x *= 0.89 / max(1e-6, np.abs(x).max())          # 피크 -1 dBFS 정규화
+            # --verify 이면 여러 번 생성해서 받아쓰기 오류율(CER)이 가장 낮은 것을 고름
+            best = None
+            for _ in range(args.tries if asr else 1):
+                a = tts.generate(say, g)
+                x = trim(np.asarray(a.samples, dtype=np.float32), a.sample_rate)
+                x *= 0.89 / max(1e-6, np.abs(x).max())          # 피크 -1 dBFS 정규화
+                e, heard = None, ""
+                if asr:
+                    st = asr.create_stream()
+                    y = x if a.sample_rate == 16000 else np.interp(
+                        np.arange(0, len(x), a.sample_rate / 16000), np.arange(len(x)), x).astype(np.float32)
+                    st.accept_waveform(16000, y)
+                    asr.decode_stream(st)
+                    heard = st.result.text
+                    e = cer(say, heard)
+                if best is None or e < best[2]:
+                    best = (x, a.sample_rate, e, heard)
+                if not asr or e <= 0.05:
+                    break
+            x, sr, e, heard = best
             name = f"{scene['id']}_{i}.wav"
-            sf.write(os.path.join(VOICE_DIR, name), x, a.sample_rate, subtype="PCM_16")
-            dur = len(x) / a.sample_rate
-            lines.append({"text": text, "file": f"voice/{name}", "duration": round(dur, 3)})
+            sf.write(os.path.join(VOICE_DIR, name), x, sr, subtype="PCM_16")
+            dur = len(x) / sr
+            lines.append({"text": text, "file": f"{prefix}{name}", "duration": round(dur, 3)})
             msg = f"{name:14s} {dur:5.2f}s"
             if asr:
-                s = asr.create_stream()
-                y = x if a.sample_rate == 16000 else np.interp(
-                    np.arange(0, len(x), a.sample_rate / 16000), np.arange(len(x)), x).astype(np.float32)
-                s.accept_waveform(16000, y)
-                asr.decode_stream(s)
-                e = cer(text, s.result.text)
                 errs.append(e)
-                msg += f"  CER {e:5.1%}  | {s.result.text}"
+                msg += f"  CER {e:5.1%}  | {heard}"
             print(msg, flush=True)
         timeline.append({"id": scene["id"], "title": scene["title"], "lines": lines})
 

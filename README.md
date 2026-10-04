@@ -1,4 +1,27 @@
-# 승용식 쌍발 트로웰 — 작동 소개 영상
+# 기계 작동 소개 영상
+
+이 저장소에는 Remotion 컴포지션 두 개가 있습니다.
+
+| 컴포지션 | 내용 |
+| --- | --- |
+| `TrowelIntro` | 승용식 쌍발 트로웰 작동 소개 (Blender 3D 렌더) |
+| `ShredderGuide` | 산업용 2축 파쇄기: 작동 원리, HS 코드, 자율안전확인과 세관장 확인, 수입 일정과 창고 예약, 안전 수칙 (CAD 도면 스타일, 약 3분) |
+
+파쇄기 영상은 SVG로 그린 도면 애니메이션이라 Blender 렌더가 필요 없습니다.
+
+```bash
+TTS_MODEL_DIR=... python3 narration/tts.py --script narration/shredder_script.json --name shredder
+npx remotion render src/index.ts ShredderGuide out/shredder_guide.mp4
+```
+
+- 대본: `narration/shredder_script.json`. 자막과 읽는 문장이 다르면 `say`, 문장별 속도는 `speed`로 지정합니다.
+- 특정 문장만 다시 만들기: `--only hscode_2,kcs_1`
+- 발음 검증(`--verify`): 문장마다 여러 번 생성해서 받아쓰기 오류가 가장 적은 결과를 고릅니다.
+- HS 코드와 일정은 예시입니다. 실제 수입 전에 관세사 상담이나 품목분류 사전심사로 확인하세요.
+
+---
+
+## 승용식 쌍발 트로웰
 
 Blender로 렌더한 3D 모델과 한국어 TTS 나레이션을 Remotion으로 합성해 약 2분 30초 분량의 1080p 소개 영상을 만듭니다.
 
