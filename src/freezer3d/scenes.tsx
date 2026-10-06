@@ -151,10 +151,10 @@ export const Structure3D: React.FC = () => {
 /* ───────────── 3. 공장 배치도 ───────────── */
 const LAYOUT_LABELS: { key: LayoutKey; label: string; dx: number; dy: number; line: number; color?: string }[] = [
   { key: "freezer", label: "나선형 냉동기 + 점검 공간", dx: -40, dy: -120, line: 1 },
-  { key: "infeed", label: "입구 컨베이어 ← 전처리실", dx: -120, dy: 90, line: 1 },
+  { key: "infeed", label: "입구 컨베이어 ← 전처리실", dx: 40, dy: 120, line: 1 },
   { key: "outfeed", label: "출구 컨베이어 → 포장실", dx: 110, dy: 100, line: 1 },
-  { key: "machine", label: "기계실 (압축기 · 응축기)", dx: 60, dy: -110, line: 2 },
-  { key: "pipe", label: "냉매 배관 경로", dx: 40, dy: -150, line: 2 },
+  { key: "machine", label: "기계실 (압축기 · 응축기)", dx: 150, dy: -40, line: 2 },
+  { key: "pipe", label: "냉매 배관 경로", dx: -150, dy: -120, line: 2 },
   { key: "elec", label: "전기 패널", dx: 140, dy: 30, line: 2 },
   { key: "drain", label: "배수구 (제상수)", dx: -130, dy: 120, line: 2 },
   { key: "door", label: "반입구 폭 ≥ 모듈 크기", dx: 150, dy: 60, line: 3 },
@@ -166,12 +166,12 @@ export const Layout3D: React.FC = () => {
   const L = s.lines;
   const li = lineAt(s, frame);
   const idx = interpolate(frame, [L[0].from, L[0].from + 140], [0, 119], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const W = 1440;
+  const W = 1640;
   const ck = (i: number) => frame >= [L[1].from, L[1].from + 50, L[2].from, L[2].from + 60, L[3].from][i];
   return (
     <Frame id="layout">
       <CadHeader no={2} title="공장 배치도" />
-      <Shot src={layoutImg(idx)} x={10} y={140} w={W}>
+      <Shot src={layoutImg(idx)} x={-90} y={70} w={W}>
         {(w) =>
           LAYOUT_LABELS.map((l, i) => (
             <Callout
