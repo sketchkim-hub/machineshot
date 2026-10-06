@@ -1,13 +1,14 @@
 # 기계 작동 소개 영상
 
-이 저장소에는 Remotion 컴포지션 두 개가 있습니다.
+이 저장소에는 Remotion 컴포지션 세 개가 있습니다.
 
 | 컴포지션 | 내용 |
 | --- | --- |
 | `TrowelIntro` | 승용식 쌍발 트로웰 작동 소개 (Blender 3D 렌더) |
 | `ShredderGuide` | 산업용 2축 파쇄기: 작동 원리, HS 코드, 자율안전확인과 세관장 확인, 수입 일정과 창고 예약, 안전 수칙 (CAD 도면 스타일, 약 3분) |
+| `FreezerGuide` | 산업용 나선형 급속 냉동기 수입: 구조와 원리, 공장 배치도, 냉동 능력·냉매, 세관장 확인(전기·전파 인증), 고압가스 안전검사 (CAD 도면 스타일, 약 3분) |
 
-파쇄기 영상은 SVG로 그린 도면 애니메이션이라 Blender 렌더가 필요 없습니다.
+파쇄기와 냉동기 영상은 SVG로 그린 도면 애니메이션이라 Blender 렌더가 필요 없습니다. 냉동기 대본은 `narration/freezer_script.json`(`--name freezer`)입니다.
 
 ```bash
 TTS_MODEL_DIR=... python3 narration/tts.py --script narration/shredder_script.json --name shredder

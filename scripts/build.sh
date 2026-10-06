@@ -19,6 +19,7 @@ if [[ -z "${SKIP_TTS:-}" ]]; then
   echo "== TTS 나레이션 (pip install sherpa-onnx soundfile numpy)"
   python3 narration/tts.py
   python3 narration/tts.py --script narration/shredder_script.json --name shredder
+  python3 narration/tts.py --script narration/freezer_script.json --name freezer
 fi
 
 echo "== 배경음"
@@ -27,4 +28,5 @@ echo "== 배경음"
 echo "== Remotion 렌더"
 npx remotion render src/index.ts TrowelIntro out/trowel_intro.mp4 --codec=h264 --crf=18 --audio-bitrate=192k
 npx remotion render src/index.ts ShredderGuide out/shredder_guide.mp4 --codec=h264 --crf=20 --audio-bitrate=160k
-echo "완료: out/trowel_intro.mp4, out/shredder_guide.mp4"
+npx remotion render src/index.ts FreezerGuide out/freezer_guide.mp4 --codec=h264 --crf=20 --audio-bitrate=160k
+echo "완료: out/trowel_intro.mp4, out/shredder_guide.mp4, out/freezer_guide.mp4"
