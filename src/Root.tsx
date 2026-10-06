@@ -15,6 +15,7 @@ import { Work } from "./scenes/Work";
 import { FPS, HEIGHT, WIDTH } from "./theme";
 import { SCENES, TOTAL_FRAMES, TRANSITION } from "./timeline";
 import { SHREDDER_FRAMES, ShredderGuide } from "./shredder/Shredder";
+import { FREEZER_FRAMES, FreezerGuide } from "./freezer/Freezer";
 
 const VIEWS: Record<string, React.FC> = {
   intro: Intro,
@@ -73,6 +74,14 @@ export const RemotionRoot: React.FC = () => (
       id="ShredderGuide"
       component={ShredderGuide}
       durationInFrames={SHREDDER_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="FreezerGuide"
+      component={FreezerGuide}
+      durationInFrames={FREEZER_FRAMES}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}

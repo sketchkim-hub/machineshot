@@ -51,7 +51,7 @@ export const Sheet: React.FC = () => {
 };
 
 /** 우상단 표제란 */
-export const TitleBlock: React.FC<{ title: string; sheet: number; total: number }> = ({ title, sheet, total }) => {
+export const TitleBlock: React.FC<{ title: string; sheet: number; total: number; prefix?: string }> = ({ title, sheet, total, prefix = "SHR" }) => {
   const frame = useCurrentFrame();
   const o = ease(frame, 4, 20);
   const cell = (label: string, value: string, x: number, y: number, w: number) => (
@@ -68,7 +68,7 @@ export const TitleBlock: React.FC<{ title: string; sheet: number; total: number 
   return (
     <svg width={1920} height={1080} style={{ position: "absolute", opacity: o }}>
       {cell("도면명", title, 1430, 52, 434)}
-      {cell("DWG NO.", `SHR-${String(sheet).padStart(2, "0")}`, 1430, 88, 217)}
+      {cell("DWG NO.", `${prefix}-${String(sheet).padStart(2, "0")}`, 1430, 88, 217)}
       {cell("SHEET", `${sheet} / ${total}`, 1647, 88, 217)}
     </svg>
   );
