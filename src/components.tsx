@@ -108,10 +108,11 @@ export const Callout: React.FC<{
   dy: number;
   start: number;
   end?: number;
-}> = ({ at, w, label, dx, dy, start, end }) => {
+  aspect?: number; // 이미지 가로세로비 (기본: 트로웰 렌더 1280x820)
+}> = ({ at, w, label, dx, dy, start, end, aspect = RENDER_ASPECT }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const h = w / RENDER_ASPECT;
+  const h = w / aspect;
   const p = spring({ frame: frame - start, fps, config: { damping: 200 }, durationInFrames: 18 });
   const out = end === undefined ? 1 : ease(frame, end, end + 10, 1, 0);
   const o = Math.min(p, out);
