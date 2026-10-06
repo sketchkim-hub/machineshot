@@ -220,6 +220,18 @@ export const Layout3D: React.FC = () => {
   );
 };
 
+/** 밝은 3D 배경 위에서도 읽히도록 어두운 바탕을 깐 라벨 */
+const tag = (x: number, y: number, t: string, size: number, color: string, anchor: "start" | "middle" = "middle") => {
+  const tw = t.length * size * 0.9 + 36;
+  const x0 = anchor === "middle" ? x - tw / 2 : x - 18;
+  return (
+    <g>
+      <rect x={x0} y={y - size - 10} width={tw} height={size + 26} fill="rgba(8,18,34,0.9)" stroke={color} strokeWidth={2.5} />
+      {txt(anchor === "middle" ? x : x, y + 2, t, size, color, 900, anchor)}
+    </g>
+  );
+};
+
 /* ───────────── 6. 고압가스 안전검사 ───────────── */
 const STEPS = [
   { t: "한국 기준 전달 (제작 전)", lines: [6] },
@@ -249,8 +261,8 @@ export const Gas3D: React.FC = () => {
   const stamp = li === 7 ? ease(frame, L[7].from + L[7].frames - 30, L[7].from + L[7].frames - 15) : 0;
   const fillO = li === 7 ? ease(frame, L[7].from + 30, L[7].from + 50) : 0;
   const [gx, gy] = px("gauge");
-  const hudX = gx + 170;
-  const hudY = gy - 120;
+  const hudX = W - 130;
+  const hudY = 200;
   const needle = -120 + 240 * 0.82 * gauge;
   const tick = -120 + 240 * 0.82;
   const polar = (a: number, r: number): [number, number] => [hudX + r * Math.cos(((a - 90) * Math.PI) / 180), hudY + r * Math.sin(((a - 90) * Math.PI) / 180)];
@@ -320,7 +332,7 @@ export const Gas3D: React.FC = () => {
               <g opacity={ease(frame, L[0].from + 10, L[0].from + 24)}>
                 <line x1={px("vessel")[0]} y1={px("vessel")[1]} x2={px("vessel")[0] + 80} y2={px("vessel")[1] + 150} stroke={K.amber} strokeWidth={3} />
                 <circle cx={px("vessel")[0]} cy={px("vessel")[1]} r={8} fill={K.amber} />
-                {txt(px("vessel")[0] + 90, px("vessel")[1] + 170, "압력용기 (수액기)", 30, K.amber, 900)}
+                {tag(px("vessel")[0] + 90, px("vessel")[1] + 170, "압력용기 (수액기)", 30, K.amber, "start")}
               </g>
             ) : null}
             {/* 내진 · 앵커 */}
@@ -341,20 +353,20 @@ export const Gas3D: React.FC = () => {
                     fill="none"
                   />
                 ))}
-                {txt(w / 2, h - 30, "내진 설계 · 앵커 볼트로 기초에 고정", 30, K.amber, 900, "middle")}
+                {tag(w / 2, h - 34, "내진 설계 · 앵커 볼트로 기초에 고정", 30, K.amber)}
               </g>
             ) : null}
             {/* 질소 흐름 */}
             {n2 > 0 ? (
               <g opacity={n2}>
                 <line x1={px("n2")[0]} y1={px("n2")[1]} x2={px("valveIn")[0]} y2={px("valveIn")[1]} stroke={K.cyan} strokeWidth={4} strokeDasharray="12 10" strokeDashoffset={-frame * 3} />
-                {txt(px("n2")[0], px("n2")[1] + 70, "질소 (N₂)", 28, K.cyan, 900, "middle")}
+                {tag(px("n2")[0], px("n2")[1] - 150, "질소 (N₂)", 28, K.cyan)}
               </g>
             ) : null}
             {/* 압력계 HUD */}
             {li >= 4 && li <= 7 ? (
               <g opacity={ease(frame, L[4].from + 6, L[4].from + 18)}>
-                <line x1={gx} y1={gy} x2={hudX - 70} y2={hudY + 40} stroke={K.text} strokeWidth={2} />
+                <line x1={gx} y1={gy} x2={hudX - 76} y2={hudY + 10} stroke={K.text} strokeWidth={2} />
                 <circle cx={hudX} cy={hudY} r={78} fill="rgba(10,26,47,0.92)" stroke={K.text} strokeWidth={3} />
                 <path d={`M ${polar(-120, 64)[0]} ${polar(-120, 64)[1]} A 64 64 0 1 1 ${polar(120, 64)[0]} ${polar(120, 64)[1]}`} fill="none" stroke={K.dim} strokeWidth={3} />
                 <line x1={polar(tick, 54)[0]} y1={polar(tick, 54)[1]} x2={polar(tick, 74)[0]} y2={polar(tick, 74)[1]} stroke={K.amber} strokeWidth={5} />
@@ -364,7 +376,7 @@ export const Gas3D: React.FC = () => {
               </g>
             ) : null}
             {li === 4 ? (
-              <g opacity={ease(frame, L[4].from + 70, L[4].from + 85)}>{txt(w / 2, h - 30, "일정 압력 유지 → 누설 · 변형 없음 확인", 30, K.green, 900, "middle")}</g>
+              <g opacity={ease(frame, L[4].from + 70, L[4].from + 85)}>{tag(w / 2, h - 34, "일정 압력 유지 → 누설 · 변형 없음 확인", 30, K.green)}</g>
             ) : null}
             {/* 파열 */}
             {burst > 0 ? (
@@ -372,10 +384,10 @@ export const Gas3D: React.FC = () => {
                 {Array.from({ length: 12 }).map((_, i) => {
                   const a = (i * 30 * Math.PI) / 180;
                   const [cx, cy] = px("valveOut");
-                  return <line key={i} x1={cx + 26 * Math.cos(a)} y1={cy + 26 * Math.sin(a)} x2={cx + (80 + (i % 2) * 40) * Math.cos(a)} y2={cy + (80 + (i % 2) * 40) * Math.sin(a)} stroke={K.red} strokeWidth={5} />;
+                  return <line key={i} x1={cx + 26 * Math.cos(a)} y1={cy + 26 * Math.sin(a)} x2={cx + (58 + (i % 2) * 22) * Math.cos(a)} y2={cy + (58 + (i % 2) * 22) * Math.sin(a)} stroke={K.red} strokeWidth={5} />;
                 })}
                 <circle cx={px("valveOut")[0]} cy={px("valveOut")[1]} r={30} fill="rgba(255,94,94,0.35)" />
-                {txt(w / 2, h - 30, "한국 규격 미달 밸브 → 압력을 못 견디고 파열", 30, K.red, 900, "middle")}
+                {tag(w / 2, h - 34, "한국 규격 미달 밸브 → 압력을 못 견디고 파열", 30, K.red)}
               </g>
             ) : null}
             {/* 기준 충족 밸브 */}
