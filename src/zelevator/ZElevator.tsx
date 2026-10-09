@@ -259,7 +259,7 @@ const Bucket: React.FC = () => {
         )}
       </Shot>
       <Shot src={img.chain(frame)} x={20} y={150} w={W} opacity={li === 2 ? ease(frame, L[2].from - 6, L[2].from + 8) : 0}>
-        {(w) => <C a={at(anchors.chain, "chain")} w={w} label="스테인리스 체인 (SUS)" dx={-160} dy={-90} start={L[2].from + 12} />}
+        {(w) => <C a={at(anchors.chain, "chain")} w={w} label="스테인리스 체인 (SUS)" dx={190} dy={-140} start={L[2].from + 12} />}
       </Shot>
       <Note x={1430} y={180} w={450} start={L[0].from} active={li === 0} title="식품용 플라스틱 버킷" desc="재료가 직접 닿는 부품" />
       <Note x={1430} y={300} w={450} start={L[1].from} active={li === 1} title="냉동 식품 → 엠보싱" desc="표면 요철로 눌러붙음 방지" />
