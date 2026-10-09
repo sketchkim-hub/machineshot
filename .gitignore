@@ -12,3 +12,4 @@ public/music.wav
 models
 __pycache__
 public/render3d
+public/render3d_z

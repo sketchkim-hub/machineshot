@@ -17,6 +17,7 @@ import { SCENES, TOTAL_FRAMES, TRANSITION } from "./timeline";
 import { SHREDDER_FRAMES, ShredderGuide } from "./shredder/Shredder";
 import { FREEZER_FRAMES, FreezerGuide } from "./freezer/Freezer";
 import { FREEZER3D_FRAMES, Freezer3D } from "./freezer3d/Freezer3D";
+import { ZELEVATOR_FRAMES, ZElevator } from "./zelevator/ZElevator";
 
 const VIEWS: Record<string, React.FC> = {
   intro: Intro,
@@ -91,6 +92,14 @@ export const RemotionRoot: React.FC = () => (
       id="FreezerGuide3D"
       component={Freezer3D}
       durationInFrames={FREEZER3D_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="ZElevator"
+      component={ZElevator}
+      durationInFrames={ZELEVATOR_FRAMES}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
