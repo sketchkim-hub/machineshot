@@ -214,8 +214,8 @@ const Bucket: React.FC = () => {
   const H = (W * 9) / 16;
   const mag = li === 1 ? ease(frame, L[1].from + 6, L[1].from + 20) : 0;
   // 확대경: 버킷 표면 근처를 2.6배로 확대
-  const fx = 0.36;
-  const fy = 0.42;
+  const fx = 0.2;
+  const fy = 0.55;
   const R = 190;
   const Z = 2.6;
   return (
@@ -224,7 +224,7 @@ const Bucket: React.FC = () => {
       <Shot src={img.close(frame * 0.5)} x={20} y={150} w={W} opacity={li === 2 ? 1 - ease(frame, L[2].from - 6, L[2].from + 8) : 1}>
         {(w) => (
           <>
-            <C a={[0.3, 0.3]} w={w} label="식품용 플라스틱 버킷" dx={170} dy={-80} start={L[0].from + 10} end={L[1].from - 4} />
+            <C a={[0.17, 0.53]} w={w} label="식품용 플라스틱 버킷" dx={200} dy={-110} start={L[0].from + 10} end={L[1].from - 4} />
             {mag > 0 ? (
               <div
                 style={{
@@ -244,7 +244,7 @@ const Bucket: React.FC = () => {
               >
                 <Img
                   src={img.close(frame * 0.5)}
-                  style={{ position: "absolute", width: w * Z, height: H * Z, left: -(fx * w * Z) + R, top: -(fy * H * Z) + R }}
+                  style={{ position: "absolute", maxWidth: "none", width: w * Z, height: H * Z, left: -(fx * w * Z) + R, top: -(fy * H * Z) + R }}
                 />
               </div>
             ) : null}
