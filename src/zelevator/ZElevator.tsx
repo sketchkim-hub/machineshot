@@ -159,23 +159,25 @@ const Line: React.FC = () => {
   const li = lineAt(s, frame);
   const idx = interpolate(frame, [0, s.frames], [0, 119], { extrapolateRight: "clamp" });
   const A = anchors.line[clampI(idx, 120)];
-  const W = 1500;
+  const W = 1400;
   const H = (W * 9) / 16;
   const dimO = li === 2 ? ease(frame, L[2].from, L[2].from + 14) : 0;
   return (
     <Frame id="line">
       <CadHeader no={2} title="자동 계량 · 포장 라인 연계" />
-      <Shot src={img.line(idx)} x={-20} y={110} w={W}>
+      <Shot src={img.line(idx)} x={10} y={150} w={W}>
         {(w) => (
           <>
             <C a={at(A, "discharge")} w={w} label="엘리베이터 배출구" dx={-170} dy={-70} start={L[0].from + 10} />
             <C a={at(A, "weigher")} w={w} label="조합 저울 (자동 무게 저울)" dx={-200} dy={60} start={L[0].from + 40} />
-            <C a={at(A, "packer")} w={w} label="포장기" dx={-160} dy={80} start={L[1].from + 20} />
+            <C a={at(A, "packer")} w={w} label="포장기" dx={260} dy={-170} start={L[1].from + 20} />
             {dimO > 0 ? (
               <svg width={w} height={H} style={{ position: "absolute", left: 0, top: 0, opacity: dimO, overflow: "visible" }}>
                 {(() => {
                   const [dx, dy] = [A.discharge[0] * w + 160, A.discharge[1] * H];
-                  const fy = A.packer[1] * H + 190;
+                  // 배출구(z≈3.4m)와 포장기 기준점(z≈1.0m)으로 바닥(z=0) 위치를 외삽
+                  const py = A.packer[1] * H;
+                  const fy = Math.min(H - 160, py + (py - dy) * (1.0 / 2.4));
                   return (
                     <g>
                       <line x1={dx} y1={dy} x2={dx} y2={fy} stroke={K.amber} strokeWidth={4} />
