@@ -24,6 +24,11 @@ const img = {
   line: (i: number) => staticFile(`render3d_z/line/l${pad(clampI(i, 120))}.png`),
   chain: (i: number) => staticFile(`render3d_z/chain/k${pad(mod(i, 60))}.png`),
 };
+// 정면이 보이는 구간(150~209 프레임, 약 120°)만 왕복 → 뒤판에 버킷이 가려지는 각도를 피함
+const front = (t: number) => {
+  const p = mod(t, 120);
+  return 150 + (p < 60 ? p : 120 - p);
+};
 type Key = keyof typeof anchors.close;
 const at = (a: Record<string, number[]>, k: Key): [number, number] => [a[k][0], a[k][1]];
 
@@ -82,7 +87,7 @@ const Intro: React.FC = () => {
   const c = ease(frame, 34, 56);
   return (
     <Frame id="intro">
-      <Shot src={img.hero(frame)} x={520} y={60} w={1500} opacity={ease(frame, 0, 20)} />
+      <Shot src={img.hero(front(frame * 0.3))} x={520} y={60} w={1500} opacity={ease(frame, 0, 20)} />
       <div style={{ position: "absolute", left: 100, top: 240, fontFamily: FONT }}>
         <div style={{ color: K.cyan, fontSize: 26, fontWeight: 700, letterSpacing: 6, opacity: a }}>Z-TYPE BUCKET ELEVATOR</div>
         <div style={{ color: K.text, fontSize: 96, fontWeight: 900, lineHeight: 1.12, marginTop: 16, opacity: b }}>
@@ -104,7 +109,7 @@ const Structure: React.FC = () => {
   const L = s.lines;
   const li = lineAt(s, frame);
   const W = 1380;
-  const hi = mod(frame * 0.4 + 10, 180);
+  const hi = mod(front(frame * 0.12 + 10), 180);
   const H = anchors.hero[Math.floor(hi)];
   const show = (k: number) => (li === k ? 1 : 0);
   const xf = (k: number) => Math.min(ease(frame, L[k].from - 8, L[k].from + 8), k + 1 < L.length ? ease(frame, L[k + 1].from - 8, L[k + 1].from + 6, 1, 0) : 1);
@@ -268,7 +273,7 @@ const Operation: React.FC = () => {
   const L = s.lines;
   const li = lineAt(s, frame);
   const W = 1300;
-  const hi = 25;
+  const hi = 0;
   const Hh = anchors.hero[hi];
   // 속도 다이얼: 0(느림) ~ 1(빠름). 첫 문장에서 적정 구간으로 이동, 둘째 문장에서 양 끝을 보여줌
   const v =
@@ -429,7 +434,7 @@ const Outro: React.FC = () => {
   return (
     <AbsoluteFill style={{ opacity: fade2 }}>
       <Frame id="outro">
-        <Shot src={img.hero(frame + 60)} x={760} y={90} w={1200} />
+        <Shot src={img.hero(front(frame * 0.3 + 30))} x={760} y={90} w={1200} />
         <div style={{ position: "absolute", left: 110, top: 190, fontFamily: FONT }}>
           <div style={{ color: K.cyan, fontSize: 26, fontWeight: 700, letterSpacing: 6, opacity: ease(frame, 4, 20) }}>CHECKLIST</div>
           <div style={{ color: K.text, fontSize: 60, fontWeight: 900, marginTop: 12, opacity: ease(frame, 10, 26) }}>도입 체크리스트</div>
