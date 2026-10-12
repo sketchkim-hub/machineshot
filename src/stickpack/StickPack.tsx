@@ -188,7 +188,7 @@ const Principle: React.FC = () => {
 const PumpIcon: React.FC<{ f: number; c: string }> = ({ f, c }) => {
   const y = 20 * Math.sin(f / 6);
   return (
-    <svg width={220} height={220} viewBox="0 0 220 220">
+    <svg width={300} height={300} viewBox="0 0 220 220">
       <rect x={70} y={30} width={80} height={130} fill="none" stroke={c} strokeWidth={4} />
       <rect x={74} y={70 + y} width={72} height={16} fill={c} />
       <line x1={110} y1={20} x2={110} y2={70 + y} stroke={c} strokeWidth={6} />
@@ -199,7 +199,7 @@ const PumpIcon: React.FC<{ f: number; c: string }> = ({ f, c }) => {
   );
 };
 const CupIcon: React.FC<{ f: number; c: string }> = ({ f, c }) => (
-  <svg width={220} height={220} viewBox="0 0 220 220">
+  <svg width={300} height={300} viewBox="0 0 220 220">
     <g transform={`rotate(${f * 2} 110 110)`}>
       <circle cx={110} cy={110} r={80} fill="none" stroke={c} strokeWidth={4} />
       {Array.from({ length: 6 }).map((_, i) => {
@@ -213,7 +213,7 @@ const CupIcon: React.FC<{ f: number; c: string }> = ({ f, c }) => (
   </svg>
 );
 const AugerIcon: React.FC<{ f: number; c: string }> = ({ f, c }) => (
-  <svg width={220} height={220} viewBox="0 0 220 220">
+  <svg width={300} height={300} viewBox="0 0 220 220">
     <path d="M 50 20 L 170 20 L 130 80 L 90 80 Z" fill="none" stroke={c} strokeWidth={4} />
     <rect x={88} y={80} width={44} height={110} fill="none" stroke={c} strokeWidth={4} />
     <line x1={110} y1={10} x2={110} y2={190} stroke={c} strokeWidth={4} />
@@ -302,7 +302,7 @@ const Speed: React.FC = () => {
   return (
     <Frame id="speed">
       <CadHeader no={3} title="생산 속도" />
-      <Shot src={img.hero(70 + frame * 0.3)} x={1180} y={420} w={720} opacity={0.85} />
+      <Shot src={img.hero(70 + frame * 0.3)} x={1230} y={500} w={660} opacity={0.85} />
       <svg width={1920} height={1080} style={{ position: "absolute", left: 0, top: 0 }}>
         {box(110, 400, "분당 절단 횟수", ex ? "40회" : "N회", li === 0, ease(frame, L[0].from, L[0].from + 14))}
         {txt(560, 345, "×", 70, K.cyan, 900, "middle")}
@@ -311,7 +311,7 @@ const Speed: React.FC = () => {
         {box(1040, 500, "분당 생산량", ex ? `${n}개` : "N × M", true, ease(frame, L[0].from + 24, L[0].from + 38), K.green)}
         {ex ? (
           <g opacity={ease(frame, L[1].from + 90, L[1].from + 104)}>
-            {txt(1290, 460, `→ 1시간 ${(240 * 60).toLocaleString()}개 (예시)`, 30, K.green, 900, "middle")}
+            {txt(1050, 470, `→ 1시간 ${(240 * 60).toLocaleString()}개 (예시)`, 30, K.green, 900)}
           </g>
         ) : null}
       </svg>
@@ -355,9 +355,22 @@ const Stick: React.FC<{ x: number; y: number; w?: number; h?: number; seal: "3" 
       : `M ${x + r} ${y} H ${x + w - r} Q ${x + w} ${y} ${x + w} ${y + r} V ${y + h - r} Q ${x + w} ${y + h} ${x + w - r} ${y + h} H ${x + r} Q ${x} ${y + h} ${x} ${y + h - r} V ${y + r} Q ${x} ${y} ${x + r} ${y} Z`;
   return (
     <g opacity={o}>
-      <g transform={`translate(0 ${-tear * 30}) rotate(${-tear * 10} ${x + w} ${y + band})`}>
-        <path d={outline} fill="rgba(231,195,90,0.25)" stroke={K.amber} strokeWidth={3} clipPath={undefined} />
-      </g>
+      {tear > 0 ? (
+        <>
+          <clipPath id="tearBottom">
+            <rect x={x - 20} y={y + band + 18} width={w + 40} height={h} />
+          </clipPath>
+          <clipPath id="tearTop">
+            <rect x={x - 20} y={y - 20} width={w + 40} height={band + 38} />
+          </clipPath>
+          <path d={outline} fill="rgba(231,195,90,0.25)" stroke={K.amber} strokeWidth={3} clipPath="url(#tearBottom)" />
+          <g transform={`translate(${-tear * 10} ${-tear * 40}) rotate(${-tear * 14} ${x + w} ${y + band + 18})`}>
+            <path d={outline} fill="rgba(231,195,90,0.35)" stroke={K.amber} strokeWidth={3} clipPath="url(#tearTop)" />
+          </g>
+        </>
+      ) : (
+        <path d={outline} fill="rgba(231,195,90,0.25)" stroke={K.amber} strokeWidth={3} />
+      )}
       <rect x={x + 3} y={y + 3} width={w - 6} height={band} fill="url(#sealHatch)" opacity={0.9} />
       <rect x={x + 3} y={y + h - band - 3} width={w - 6} height={band} fill="url(#sealHatch)" opacity={0.9} />
       {seal === "3" ? (
