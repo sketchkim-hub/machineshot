@@ -129,7 +129,9 @@ const Principle: React.FC = () => {
       <Shot src={img.hero(hi)} x={10} y={150} w={W} opacity={during(frame, L, 0)}>
         {(w) => (
           <>
-            <C a={at(Hh, "roll")} w={w} label="필름 롤" dx={200} dy={-60} start={L[0].from + 8} />
+            <div style={{ position: "absolute", left: 30, top: 24, padding: "10px 18px", border: `2.5px solid ${K.cyan}`, background: "rgba(10,26,47,0.88)", color: K.cyan, fontFamily: FONT, fontSize: 27, fontWeight: 900, opacity: ease(frame, L[0].from + 8, L[0].from + 20) }}>
+              필름 롤은 기계 뒤쪽에서 공급
+            </div>
             <C a={at(Hh, "slitter")} w={w} label="슬리터 → 6열로 분리" dx={-230} dy={-80} start={L[0].from + 50} />
           </>
         )}
