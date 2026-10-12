@@ -13,3 +13,4 @@ models
 __pycache__
 public/render3d
 public/render3d_z
+public/render3d_sp

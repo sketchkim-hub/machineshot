@@ -1,0 +1,155 @@
+[
+  {
+    "id": "intro",
+    "title": "다열 스틱 포장기",
+    "lines": [
+      {
+        "text": "커피믹스나 스틱 꿀처럼 가늘고 긴 포장을 여러 줄로 동시에 만드는 다열 스틱 포장기를 소개합니다.",
+        "file": "voice/stickpack/intro_0.wav",
+        "duration": 6.652
+      }
+    ]
+  },
+  {
+    "id": "principle",
+    "title": "작동 원리",
+    "lines": [
+      {
+        "text": "필름 한 롤이 풀려 나오면서 슬리터 칼날에 의해 여러 줄로 나뉩니다.",
+        "file": "voice/stickpack/principle_0.wav",
+        "duration": 4.454
+      },
+      {
+        "text": "각 줄의 필름은 성형 튜브를 감싸며 원통 모양이 되고, 세로 실링 바가 이음매를 열로 붙입니다.",
+        "file": "voice/stickpack/principle_1.wav",
+        "duration": 6.55
+      },
+      {
+        "text": "아래쪽 가로 실링 조가 바닥을 먼저 붙이면, 위에서 정해진 양의 내용물이 채워집니다.",
+        "file": "voice/stickpack/principle_2.wav",
+        "duration": 6.025
+      },
+      {
+        "text": "다시 가로 실링으로 윗부분을 막고 커터가 한 개씩 잘라 내면, 완성된 스틱이 배출 컨베이어로 나옵니다.",
+        "file": "voice/stickpack/principle_3.wav",
+        "duration": 7.276
+      }
+    ]
+  },
+  {
+    "id": "dosing",
+    "title": "액상 · 과립 · 분말 계량 방식",
+    "lines": [
+      {
+        "text": "내용물에 따라 계량 장치가 달라집니다.",
+        "file": "voice/stickpack/dosing_0.wav",
+        "duration": 2.401
+      },
+      {
+        "text": "액상은 피스톤 펌프로, 과립은 계량 컵으로, 분말은 스크루 방식의 오거 충전기로 정량을 채웁니다.",
+        "file": "voice/stickpack/dosing_1.wav",
+        "duration": 7.226
+      },
+      {
+        "text": "같은 기계라도 계량 장치를 바꾸면 다른 제품을 포장할 수 있으니, 도입 전에 어떤 내용물을 쓸지 정해 두어야 합니다.",
+        "file": "voice/stickpack/dosing_2.wav",
+        "duration": 8.015
+      }
+    ]
+  },
+  {
+    "id": "speed",
+    "title": "생산 속도",
+    "lines": [
+      {
+        "text": "생산 속도는 분당 절단 횟수에 열 수를 곱해서 계산합니다.",
+        "file": "voice/stickpack/speed_0.wav",
+        "duration": 3.762
+      },
+      {
+        "text": "예를 들어 6열 기계가 분당 40회 작동하면, 1분에 240개의 스틱이 만들어집니다.",
+        "file": "voice/stickpack/speed_1.wav",
+        "duration": 6.297
+      },
+      {
+        "text": "다만 실제 속도는 내용물의 흐름성과 충전량, 필름 재질에 따라 달라지므로, 샘플 시험으로 확인하는 것이 좋습니다.",
+        "file": "voice/stickpack/speed_2.wav",
+        "duration": 8.156
+      }
+    ]
+  },
+  {
+    "id": "design",
+    "title": "실링 · 커팅 디자인",
+    "lines": [
+      {
+        "text": "포장지의 접합 형태는 뒷면을 붙이는 3면 실링과, 네 변을 모두 붙이는 4면 실링이 대표적입니다.",
+        "file": "voice/stickpack/design_0.wav",
+        "duration": 6.62
+      },
+      {
+        "text": "커팅 모양은 일자, 톱니 모양의 지그재그, 모서리를 둥글게 자르는 라운드 커팅 중에서 고를 수 있습니다.",
+        "file": "voice/stickpack/design_1.wav",
+        "duration": 6.899
+      },
+      {
+        "text": "손으로 쉽게 뜯을 수 있도록 이지 컷 노치를 넣으면, 소비자 편의성이 크게 높아집니다.",
+        "file": "voice/stickpack/design_2.wav",
+        "duration": 5.588
+      }
+    ]
+  },
+  {
+    "id": "safety",
+    "title": "작동 시 유의사항",
+    "lines": [
+      {
+        "text": "작동 중에는 실링 조와 커터 근처에 절대 손을 넣지 말고, 안전 도어가 닫힌 상태에서만 운전합니다.",
+        "file": "voice/stickpack/safety_0.wav",
+        "duration": 7.054
+      },
+      {
+        "text": "실링 온도와 압력이 맞지 않으면 접합 불량이나 새는 제품이 생기므로, 필름에 맞는 조건을 설정합니다.",
+        "file": "voice/stickpack/safety_1.wav",
+        "duration": 7.107
+      },
+      {
+        "text": "필름이 한쪽으로 치우치지 않도록 장력과 정렬을 확인하고, 작업이 끝나면 계량부와 실링부를 깨끗이 청소합니다.",
+        "file": "voice/stickpack/safety_2.wav",
+        "duration": 8.746
+      }
+    ]
+  },
+  {
+    "id": "import",
+    "title": "수입 통관 참고사항",
+    "lines": [
+      {
+        "text": "스틱 포장기는 일반적으로 충전 · 밀봉 기계인 8422.30호로 분류됩니다.",
+        "file": "voice/stickpack/import_0.wav",
+        "duration": 5.656
+      },
+      {
+        "text": "식품에 닿는 부품이 있으므로 관련 요건을, 전기 설비이므로 전기 안전 요건을 미리 확인해야 합니다.",
+        "file": "voice/stickpack/import_1.wav",
+        "duration": 6.734
+      },
+      {
+        "text": "그리고 FTA 원산지 증명서를 갖추면 협정 세율을 적용받아 관세를 줄이거나 면제받을 수 있습니다.",
+        "file": "voice/stickpack/import_2.wav",
+        "duration": 7.151
+      }
+    ]
+  },
+  {
+    "id": "outro",
+    "title": "도입 체크리스트",
+    "lines": [
+      {
+        "text": "내용물과 계량 방식, 생산 속도, 포장 디자인, 그리고 통관 서류까지 미리 확인하고 도입하세요.",
+        "file": "voice/stickpack/outro_0.wav",
+        "duration": 6.925
+      }
+    ]
+  }
+]

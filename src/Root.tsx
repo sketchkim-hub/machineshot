@@ -18,6 +18,7 @@ import { SHREDDER_FRAMES, ShredderGuide } from "./shredder/Shredder";
 import { FREEZER_FRAMES, FreezerGuide } from "./freezer/Freezer";
 import { FREEZER3D_FRAMES, Freezer3D } from "./freezer3d/Freezer3D";
 import { ZELEVATOR_FRAMES, ZElevator } from "./zelevator/ZElevator";
+import { STICKPACK_FRAMES, StickPack } from "./stickpack/StickPack";
 
 const VIEWS: Record<string, React.FC> = {
   intro: Intro,
@@ -100,6 +101,14 @@ export const RemotionRoot: React.FC = () => (
       id="ZElevator"
       component={ZElevator}
       durationInFrames={ZELEVATOR_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="StickPack"
+      component={StickPack}
+      durationInFrames={STICKPACK_FRAMES}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
