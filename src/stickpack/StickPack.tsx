@@ -141,7 +141,7 @@ const Principle: React.FC = () => {
           <>
             {li === 1 ? (
               <>
-                <C a={at(anchors.seal, "forming")} w={w} label="성형 튜브 (필름이 감쌈)" dx={-220} dy={-40} start={L[1].from + 8} />
+                <C a={[0.355, 0.42]} w={w} label="성형 튜브 (필름이 감쌈)" dx={-230} dy={40} start={L[1].from + 8} />
                 <C a={at(anchors.seal, "vseal")} w={w} label="세로 실링 바" dx={240} dy={-60} start={L[1].from + 40} />
               </>
             ) : null}
