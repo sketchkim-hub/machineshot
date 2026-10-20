@@ -19,6 +19,7 @@ import { FREEZER_FRAMES, FreezerGuide } from "./freezer/Freezer";
 import { FREEZER3D_FRAMES, Freezer3D } from "./freezer3d/Freezer3D";
 import { ZELEVATOR_FRAMES, ZElevator } from "./zelevator/ZElevator";
 import { STICKPACK_FRAMES, StickPack } from "./stickpack/StickPack";
+import { WOODCHIP_FRAMES, WoodChip } from "./woodchip/WoodChip";
 
 const VIEWS: Record<string, React.FC> = {
   intro: Intro,
@@ -109,6 +110,14 @@ export const RemotionRoot: React.FC = () => (
       id="StickPack"
       component={StickPack}
       durationInFrames={STICKPACK_FRAMES}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="WoodChip"
+      component={WoodChip}
+      durationInFrames={WOODCHIP_FRAMES}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
