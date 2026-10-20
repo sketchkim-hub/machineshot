@@ -142,7 +142,7 @@ const Principle: React.FC = () => {
       <Shot src={img.feed(frame)} x={10} y={150} w={W} opacity={during(frame, L, 0)}>
         {(w) => (
           <>
-            <C a={at(anchors.feed, "table")} w={w} label="옆 투입대" dx={-60} dy={150} start={L[0].from + 8} />
+            <C a={at(anchors.feed, "table")} w={w} label="옆 투입대" dx={-40} dy={70} start={L[0].from + 8} />
             <C a={at(anchors.feed, "hopper")} w={w} label="경사 호퍼" dx={-250} dy={30} start={L[0].from + 26} />
             <C a={at(anchors.feed, "housing")} w={w} label="원형 하우징 · 로터" dx={-300} dy={-40} start={L[0].from + 60} />
             <C a={at(anchors.feed, "motor")} w={w} label="전동기" dx={120} dy={130} start={L[0].from + 110} />
@@ -266,13 +266,13 @@ const Output: React.FC = () => {
   return (
     <Frame id="output">
       <CadHeader no={2} title="우드칩과 톱밥" />
-      {card(110, "우드칩", "칼날로 자르기", "납작한 조각 · 연료 · 깔짚", KnifeIcon, ease(frame, L[0].from, L[0].from + 14), li === 0 ? K.amber : K.cyan)}
-      {card(700, "톱밥", "해머로 두드리기", "고운 가루 · 버섯배지 · 펠릿", HammerIcon, ease(frame, L[0].from + 40, L[0].from + 54), li === 0 ? K.amber : K.cyan)}
+      {card(110, "우드칩", "칼날로 자르기", "납작한 조각 · 연료용", KnifeIcon, ease(frame, L[0].from, L[0].from + 14), li === 0 ? K.amber : K.cyan)}
+      {card(700, "톱밥", "해머로 두드리기", "고운 가루 · 버섯배지", HammerIcon, ease(frame, L[0].from + 40, L[0].from + 54), li === 0 ? K.amber : K.cyan)}
       <Shot src={img.hero(frame + 40)} x={1290} y={170} w={600} opacity={0.95}>
         {(w) => (
           <>
             <C a={heroAt(frame + 40).pile as [number, number]} w={w} label="칩" dx={90} dy={40} start={L[0].from + 20} />
-            <C a={heroAt(frame + 40).dust as [number, number]} w={w} label="톱밥" dx={-80} dy={50} start={L[0].from + 50} />
+            <C a={heroAt(frame + 40).dust as [number, number]} w={w} label="톱밥" dx={-30} dy={95} start={L[0].from + 50} />
           </>
         )}
       </Shot>
@@ -359,7 +359,7 @@ const Kcs: React.FC = () => {
   const arrow = (x1: number, y1: number, x2: number, y2: number, label: string, c: string, o: number) => (
     <g opacity={o}>
       <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={c} strokeWidth={3} markerEnd="url(#ah)" />
-      {txt((x1 + x2) / 2 + 12, (y1 + y2) / 2 - 8, label, 22, c, 700)}
+      {txt((x1 + x2) / 2 + 12, (y1 + y2) / 2 + (x1 === x2 ? 8 : -8), label, 22, c, 700)}
     </g>
   );
   const o0 = ease(frame, L[0].from, L[0].from + 14);
