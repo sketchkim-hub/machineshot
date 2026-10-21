@@ -121,12 +121,12 @@ const Intro: React.FC = () => {
 
 /* ───────────── 2. 작동 원리 ───────────── */
 const STEPS = [
-  { t: "투입 (옆 투입대 · 경사 호퍼)", l: 0 },
+  { t: "투입 (옆 투입대)", l: 0 },
   { t: "로터 고속 회전 (전동기 → 벨트)", l: 0 },
   { t: "칼날 절단 · 해머 타격", l: 1 },
   { t: "고정 칼날 사이에서 분쇄", l: 1 },
   { t: "스크린 통과 (크기 선별)", l: 2 },
-  { t: "배출구 → 칩 더미", l: 3 },
+  { t: "바람 → 위쪽 경사 배출관", l: 3 },
 ];
 
 const Principle: React.FC = () => {
@@ -143,7 +143,7 @@ const Principle: React.FC = () => {
         {(w) => (
           <>
             <C a={at(anchors.feed, "table")} w={w} label="옆 투입대" dx={-40} dy={70} start={L[0].from + 8} />
-            <C a={at(anchors.feed, "hopper")} w={w} label="경사 호퍼" dx={-250} dy={30} start={L[0].from + 26} />
+            <C a={at(anchors.feed, "chute")} w={w} label="경사 배출관 (칩 배출)" dx={-300} dy={10} start={L[0].from + 26} />
             <C a={at(anchors.feed, "housing")} w={w} label="원형 하우징 · 로터" dx={-300} dy={-40} start={L[0].from + 60} />
             <C a={at(anchors.feed, "motor")} w={w} label="전동기" dx={120} dy={130} start={L[0].from + 110} />
           </>
@@ -167,8 +167,8 @@ const Principle: React.FC = () => {
       <Shot src={img.hero(hi)} x={10} y={150} w={W} opacity={during(frame, L, 3)}>
         {(w) => (
           <>
-            <C a={heroAt(hi).outlet as [number, number]} w={w} label="배출구" dx={-260} dy={20} start={L[3].from + 6} />
-            <C a={heroAt(hi).pile as [number, number]} w={w} label="우드칩" dx={260} dy={10} start={L[3].from + 30} />
+            <C a={heroAt(hi).outlet as [number, number]} w={w} label="경사 배출관" dx={-300} dy={-20} start={L[3].from + 6} />
+            <C a={heroAt(hi).pile as [number, number]} w={w} label="우드칩" dx={200} dy={-40} start={L[3].from + 30} />
           </>
         )}
       </Shot>
@@ -300,8 +300,8 @@ const Safety: React.FC = () => {
   const W = 1280;
   const H = (W * 9) / 16;
   const pulse = 0.55 + 0.45 * Math.sin(frame / 5);
-  const [tx, ty] = [anchors.feed.table[0] * W, anchors.feed.table[1] * H];
-  const [hx, hy] = [anchors.feed.hopper[0] * W, anchors.feed.hopper[1] * H];
+  const [ix, iy] = [anchors.feed.throat[0] * W, anchors.feed.throat[1] * H];
+  const [ox, oy] = [anchors.feed.outlet[0] * W, anchors.feed.outlet[1] * H];
   return (
     <Frame id="safety">
       <CadHeader no={3} title="작동 시 유의사항" />
@@ -309,9 +309,17 @@ const Safety: React.FC = () => {
         {(w, h) => (
           <svg width={w} height={h} style={{ position: "absolute", left: 0, top: 0 }}>
             <g opacity={(li === 0 ? 1 : 0.35) * pulse}>
-              <ellipse cx={tx + 280} cy={ty - 70} rx={200} ry={90} fill="rgba(255,94,94,0.18)" stroke={K.red} strokeWidth={5} strokeDasharray="18 10" />
-              <ellipse cx={hx - 20} cy={hy + 40} rx={150} ry={110} fill="rgba(255,94,94,0.18)" stroke={K.red} strokeWidth={5} strokeDasharray="18 10" />
+              <ellipse cx={ix} cy={iy} rx={170} ry={100} fill="rgba(255,94,94,0.18)" stroke={K.red} strokeWidth={5} strokeDasharray="18 10" />
             </g>
+            <g opacity={(li === 1 ? 1 : 0.35) * pulse}>
+              <ellipse cx={ox + 90} cy={oy + 120} rx={150} ry={170} fill="rgba(255,94,94,0.18)" stroke={K.red} strokeWidth={5} strokeDasharray="18 10" />
+            </g>
+            {li === 1 ? (
+              <g opacity={ease(frame, L[1].from + 10, L[1].from + 22)}>
+                <rect x={30} y={30} width={430} height={56} fill="rgba(10,26,47,0.9)" stroke={K.red} strokeWidth={2.5} />
+                {txt(245, 68, "배출관 앞: 칩이 날아옴", 28, K.red, 900, "middle")}
+              </g>
+            ) : null}
             {li === 0 ? (
               <g opacity={ease(frame, L[0].from + 10, L[0].from + 22)}>
                 <rect x={30} y={30} width={430} height={56} fill="rgba(10,26,47,0.9)" stroke={K.red} strokeWidth={2.5} />
@@ -333,7 +341,7 @@ const Safety: React.FC = () => {
         )}
       </Shot>
       <Note x={1320} y={180} w={560} start={L[0].from} active={li === 0} title="투입구에 손 금지" desc="긴 나무는 밀대로 · 옆에 비켜서기" color={K.red} />
-      <Note x={1320} y={320} w={560} start={L[1].from} active={li === 1} title="보호구 착용" desc="보안경 · 귀마개 · 장갑 (파편 · 소음)" />
+      <Note x={1320} y={320} w={560} start={L[1].from} active={li === 1} title="배출관 앞 피하기 · 보호구" desc="보안경 · 귀마개 · 장갑 (칩 비산 · 소음)" />
       <Note x={1320} y={460} w={560} start={L[2].from} active={li === 2} title="칼날 · 스크린 교체" desc="전원 차단 · 잠금 장치 · 정지 확인" />
       {li === 1 ? (
         <div style={{ position: "absolute", left: 1320, top: 610, display: "flex", gap: 14, fontFamily: FONT, opacity: ease(frame, L[1].from + 10, L[1].from + 24) }}>

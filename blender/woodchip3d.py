@@ -4,7 +4,7 @@
   python3 woodchip3d.py still   out.png      # 확인용
   python3 woodchip3d.py hero    out_dir/     # 정면 왕복 궤도 120프레임 (끊김 없는 루프)
   python3 woodchip3d.py rotor   out_dir/     # 로터 · 스크린 · 배출부 클로즈업 60프레임 (루프)
-  python3 woodchip3d.py feed    out_dir/     # 투입대 · 호퍼 쪽 사선 컷 60프레임 (루프)
+  python3 woodchip3d.py feed    out_dir/     # 투입대 · 배출관 쪽 사선 컷 60프레임 (루프)
   python3 woodchip3d.py anchors out.json     # 컷별 라벨 2D 좌표
 
 환경변수 RES=가로x세로, SAMPLES=n, FRAMES=시작:끝
@@ -95,8 +95,9 @@ RX = (0, math.radians(90), 0)      # X축 방향 원통
 HC = Vector((0, 0, 0.95))          # 하우징 중심 (로터 축)
 HR = 0.62                          # 하우징 반지름
 P = 30                             # 1 사이클 = 30프레임
-OUTLET = Vector((0, -0.62, 0.13))   # 배출구 끝
-PILE = Vector((0, -1.25, 0.0))     # 칩 더미
+CH_DIR = Vector((math.sin(math.radians(42)), 0, math.cos(math.radians(42))))   # 배출관 방향
+OUTLET = Vector((0.2, -0.02, 1.45)) + CH_DIR * 0.9   # 위쪽 경사 배출관 끝
+PILE = Vector((1.5, -0.95, 0.0))   # 칩 더미 (배출관 앞 · 오른쪽)
 
 rotor = None
 logs, chips_out, chips_in = [], [], []
@@ -117,10 +118,8 @@ def build():
         box((2.6, 0.1, 0.16), (0.05, y, 0.08), M_DARK)
     for x in (-1.1, -0.3, 0.6, 1.25):
         box((0.1, 0.84, 0.1), (x, 0, 0.11), M_DARK)
-    # ── 하우징 받침 + 배출 슈트 ──
+    # ── 하우징 받침 ──
     box((1.05, 0.4, 0.24), (0, 0.08, 0.26), M_YEL, bevel=0.01)
-    box((0.46, 0.4, 0.2), (0, -0.4, 0.2), M_YEL2, rot=(math.radians(-22), 0, 0), bevel=0.01)
-    box((0.42, 0.05, 0.05), (0, -0.6, 0.1), M_DARK)                                  # 배출구 테
     # ── 원형 하우징 (앞쪽 커버 개방: 내부 투시) ──
     shell = cyl(HR, 0.5, HC, M_YEL, rot=RY, verts=64, fill="NOTHING")
     sol = shell.modifiers.new("sol", "SOLIDIFY")
@@ -163,18 +162,15 @@ def build():
     for x in (-1.82, -1.0):
         for y in (-0.22, 0.18):
             box((0.05, 0.05, 0.82), (x, y, 0.43), M_DARK)
-    # ── 상부 경사 호퍼 (오른쪽 위로 45°) ──
-    hp = empty("hopper", HC + Vector((0.2, -0.02, 0.5)), rot=(0, math.radians(42), 0))
+    # ── 상부 경사 배출관 (오른쪽 위로 42°): 로터 바람에 실린 칩이 여기로 나감 ──
+    hp = empty("chute", HC + Vector((0.2, -0.02, 0.5)), rot=(0, math.radians(42), 0))
     L = 0.85
     for s in (-1, 1):
         box((0.36, 0.015, L), (0, s * 0.22, L / 2), M_YEL, parent=hp)
         box((0.015, 0.45, L), (s * 0.18, 0, L / 2), M_YEL, parent=hp)
-        box((0.5, 0.02, 0.06), (0, s * 0.3, L + 0.05), M_YEL2, rot=(s * math.radians(20), 0, 0), parent=hp)   # 나팔 입구
-        box((0.02, 0.6, 0.06), (s * 0.24, 0, L + 0.05), M_YEL2, rot=(0, -s * math.radians(20), 0), parent=hp)
-    # 호퍼 안의 나뭇가지
-    for k, (dy, dx) in enumerate(((-0.08, -0.05), (0.07, 0.04), (0.0, 0.08))):
-        br = empty("branch", (dx, dy, L * 0.55 + k * 0.08), rot=(0, math.radians(-90), 0), parent=hp)
-        cyl(0.025 - k * 0.004, 0.55, (-0.27, 0, 0), M_BARK, rot=RX, parent=br, verts=8)
+        box((0.4, 0.03, 0.05), (0, s * 0.235, L - 0.02), M_YEL2, parent=hp)              # 끝단 테
+        box((0.03, 0.5, 0.05), (s * 0.195, 0, L - 0.02), M_YEL2, parent=hp)
+    box((0.42, 0.5, 0.04), (0, 0, 0.06), M_YEL2, parent=hp)                              # 하우징 연결 플랜지
     # ── 전동기 (파란색, 오른쪽) ──
     box((0.55, 0.6, 0.2), (1.08, 0.0, 0.26), M_DARK)                                    # 모터 받침
     cyl(0.25, 0.62, (1.08, 0.0, 0.62), M_BLUE, rot=RY, verts=40)
@@ -208,8 +204,8 @@ def build():
         lg = log_obj(0.05, 0.75)
         lg.location = (-1.0, 0.12 - k * 0.0, 0.93 + k * 0.1)
         lg.rotation_euler = (0, 0, math.radians(4))
-    # ── 날리는 칩 (배출구 → 더미) ──
-    for k in range(40):
+    # ── 날리는 칩 (위쪽 배출관 → 더미) ──
+    for k in range(90):
         bpy.ops.mesh.primitive_cube_add(size=1)
         c = bpy.context.object
         c.scale = (0.035, 0.022, 0.007)
@@ -251,11 +247,11 @@ def set_frame(t):
         lg.location = (front, -0.03 + 0.02 * k, 0.935 - k * 0.012)
         lg.scale = (Lnow / L0, 1, 1)
         lg.rotation_euler = (0, 0, 0)
-    # 배출 칩: 배출구에서 앞 · 아래로 포물선
+    # 배출 칩: 위쪽 배출관 끝에서 앞 · 오른쪽으로 포물선
     for c, ph0, side, sp, spin, r0 in chips_out:
         age = ((t / P) + ph0) % 1.0
-        v = Vector((side * 0.6, -0.75 * sp, -0.1))
-        p = OUTLET + Vector((side * 0.3, 0, 0)) * 0.3 + v * age + Vector((0, 0, -0.25 * age * age))
+        v = CH_DIR * sp + Vector((side * 0.8, -0.95, 0))
+        p = OUTLET + Vector((0, side * 0.4, 0)) + v * age + Vector((0, 0, -2.67 * age * age))
         c.location = p
         c.rotation_euler = (r0 + spin * 2 * math.pi * age, r0 * 0.7 + spin * 2 * math.pi * age, r0)
         c.hide_render = p.z < 0.06
@@ -293,10 +289,10 @@ def aim(target):
 def hero_cam(i, n=120):
     """정면 기준 -32° ~ +40° 를 왕복 (cos 곡선 → 120프레임 끊김 없는 루프)"""
     a = math.radians(-32 + 36 * (1 - math.cos(2 * math.pi * i / n)))
-    R, H = 5.6, 2.1
-    cam.location = (-0.1 + R * math.sin(a), -0.2 - R * math.cos(a), H)
+    R, H = 6.3, 2.3
+    cam.location = (0.1 + R * math.sin(a), -0.35 - R * math.cos(a), H)
     cam_data.lens = 34
-    aim((-0.15, -0.25, 0.8))
+    aim((0.1, -0.35, 0.95))
 
 def rotor_cam():
     cam.location = (0.25, -2.3, 1.1)
@@ -304,12 +300,12 @@ def rotor_cam():
     aim((-0.1, 0, 0.78))
 
 def feed_cam():
-    cam.location = (-2.6, -2.4, 2.3)
-    cam_data.lens = 36
-    aim((-0.55, 0, 1.0))
+    cam.location = (-2.9, -3.0, 2.5)
+    cam_data.lens = 33
+    aim((-0.25, -0.15, 1.15))
 
 PTS = {
-    "hopper": (0.62, -0.02, 1.95),
+    "chute": (0.53, -0.24, 1.82),
     "table": (-1.45, -0.27, 0.9),
     "housing": (-0.45, -0.25, 1.4),
     "rotor": (0.0, -0.05, 0.95),
@@ -317,13 +313,14 @@ PTS = {
     "hammer": (-0.33, -0.08, 0.68),
     "anvil": (-0.54, -0.22, 0.88),
     "screen": (0.22, -0.22, 0.45),
-    "outlet": (0.0, -0.62, 0.13),
-    "pile": (0.0, -1.25, 0.15),
+    "outlet": (0.77, -0.02, 2.12),
+    "pile": (1.5, -0.95, 0.15),
     "dust": (-1.15, -1.15, 0.12),
     "motor": (1.08, -0.3, 0.75),
     "belt": (0.6, 0.36, 1.0),
     "estop": (0.75, -0.38, 1.18),
     "log": (-1.2, -0.03, 0.97),
+    "throat": (-0.75, -0.25, 1.0),
 }
 
 def setup_render(w=1280, h=720):
